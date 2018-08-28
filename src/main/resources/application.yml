@@ -1,0 +1,59 @@
+server:
+  port: ${tomcat.port:${SERVER_PORT:${PORT:9100}}}
+
+project:
+  artifactId: demo
+  name: demo
+  description: demo
+
+info:
+  build:
+    artifact: ${project.artifactId}
+    name: ${project.name}
+    description: ${project.description}
+
+spring:
+  application:
+    name: demo
+  profiles: local,dev,test,online
+
+logging:
+  path: logs
+  ROOT: WARN
+  level:
+    com.pepper: INFO
+
+management:
+  port: 54001
+  contextPath: /admin
+
+
+
+security:
+  user:
+    name: root
+    password: pepper
+
+
+
+---
+spring:
+  profiles: local
+encrypt:
+  file: classpath:config/config.properties
+logging:
+  path: logs
+  file: logs/log.log
+  level:
+      com.pepper: DEBUG
+
+---
+spring:
+  profiles: test
+encrypt:
+  file: file:/home/nulo/config/${project.name}/config.properties
+logging:
+  path: /home/nulo/logs/${project.name}/
+  file: log.log
+  level:
+      com.pepper: INFO
